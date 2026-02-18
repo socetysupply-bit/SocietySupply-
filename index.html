@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Supply</title>
+
+<style>
+/* Reset */
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+nav {
+  position: fixed;
+  top:0;
+  width:100%;
+  background: rgba(0,0,0,0.9);
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  padding:15px 30px;
+  z-index: 1000;
+  border-bottom: 1px solid #0ff;
+}
+
+nav h1 {
+  font-size: 24px;
+  color: #0ff;
+  letter-spacing: 4px;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+  cursor: pointer;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #0ff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: #06c;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+}
+
+/* Header */
+header {
+  background: url('banner.jpg') center/cover no-repeat;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: bold;
+  letter-spacing: 6px;
+  color: #0ff;
+  text-shadow: 0 0 15px #0ff, 0 0 25px #0ff;
+  animation: glow 2s infinite alternate;
+  text-align: center;
+  margin-top: 70px;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 15px #0ff, 0 0 25px #0ff; }
+  to { text-shadow: 0 0 25px #0ff, 0 0 40px #0ff; }
+}
+
+/* Sections */
+.section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.section h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  color: #0ff;
+  text-shadow: 0 0 8px #0ff;
+}
+
+/* Filter buttons */
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.filters button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  background:#111;
+  color:#0ff;
+  transition: all 0.3s ease;
+}
+
+.filters button.active, .filters button:hover {
+  background:#0ff;
+  color:#000;
+  box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+/* Carousel */
+.carousel {
+  display: flex;
+  gap: 25px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 20px 50px;
+}
+
+.carousel::-webkit-scrollbar {
+  height: 10px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background: #0ff;
+  border-radius: 10px;
+}
+
+.card {
+  background-color: #111;
+  border-radius: 20px;
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  overflow: hidden;
+  transition: transform 0.4s, box-shadow 0.4s, opacity 0.5s;
+  opacity: 0;
+  transform: translateY(50px);
+  cursor: pointer;
+  position: relative;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 20px 50px rgba(0,255,255,0.4);
+}
+
+.card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-bottom: 2px solid #0ff;
+}
+
+.card h3 {
+  margin: 15px 10px 10px;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.card h3 span {
+  display: block;
+  font-size: 14px;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0 15px;
+}
+
+/* Buttons */
+button.buy {
+  background-color: #0ff;
+  color: #000;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button.buy:hover {
+  background-color: #06c;
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #0ff, 0 0 25px #0ff;
+}
+
+/* Cart */
+.cart {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  padding: 15px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 0 20px rgba(0,255,255,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+  z-index:1000;
+}
+
+.cart.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.cart span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Lightbox */
+#lightbox {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 3px solid #0ff;
+  border-radius: 20px;
+  box-shadow: 0 0 30px #0ff;
+}
+
+/* Footer */
+footer {
+  padding: 20px;
+  text-align: center;
+  background: #111;
+  font-size: 14px;
+  color: #888;
+}
+
+/* Responsive */
+@media(max-width: 900px) {
+  nav ul { gap:15px; }
+  header { font-size:36px; }
+  .card img { height:250px; }
+}
+
+@media(max-width: 600px) {
+  nav { flex-direction: column; gap:10px; }
+  header { font-size:28px; margin-top:90px; }
+  .carousel { padding: 20px; }
+  .card { flex: 0 0 220px; }
+  .card img { height:200px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav>
+  <h1 onclick="window.scrollTo({top:0,behavior:'smooth'})">SOCIETY SUPPLY</h1>
+  <ul>
+    <li><a href="#lanzamientos">Nuevos</a></li>
+    <li><a href="#sudaderas">Sudaderas</a></li>
+    <li><a href="#camisas">Camisas</a></li>
+    <li><a href="#accesorios">Accesorios</a></li>
+  </ul>
+</nav>
+
+<!-- Header -->
+<header>
+  SOCIETY SUPPLY
+</header>
+
+<!-- Section: Nuevos Lanzamientos -->
+<section id="lanzamientos" class="section">
+  <h2>🆕 Nuevos Lanzamientos</h2>
+  
+  <div class="filters">
+    <button class="active" onclick="filterCategory('all', this)">Todos</button>
+    <button onclick="filterCategory('sudadera', this)">Sudaderas</button>
+    <button onclick="filterCategory('camisa', this)">Camisas</button>
+    <button onclick="filterCategory('accesorio', this)">Accesorios</button>
+  </div>
+  
+  <div class="carousel" id="product-carousel">
+
+    <div class="card" data-category="sudadera">
+      <img src="d83fcbacdc34494b80e7bdf80b72c24d.png" alt="Sudadera Essentials" onclick="openLightbox(this)">
+      <h3>Sudadera Essentials</h3>
+      <div class="price">$2,000 MXN</div>
+      <button class="buy" onclick="addToCart('Sudadera Essentials',2000)">Comprar</button>
+    </div>
+
+    <div class="card" data-category="sudadera">
+      <img src="fec23db5366bf4f7745fb162da5822f3.png" alt="Sudadera ALO" onclick="openLightbox(this)">
+      <h3>Sudadera ALO</h3>
+      <div class="price">$2,300 MXN</div>
+      <button class="buy" onclick="addToCart('Sudadera ALO',2300)">Comprar</button>
+    </div>
+
+    <div class="card" data-category="camisa">
+      <img src="file_000000001c2471fdb8162bdbe6f2f778 (1).jpg" alt="Camisa Nude Project" onclick="openLightbox(this)">
+      <h3>Camisa Nude Project</h3>
+      <div class="price">$500 MXN</div>
+      <button class="buy" onclick="addToCart('Camisa Nude Project',500)">Comprar</button>
+    </div>
+
+    <div class="card" data-category="accesorio">
+      <img src="Screenshot_20260218-014751.jpg" alt="Pulsera Van Cleef Plata" onclick="openLightbox(this)">
+      <h3>Pulsera Van Cleef Plata <span>(Incluye certificado)</span></h3>
+      <div class="price">$3,000 MXN</div>
+      <button class="buy" onclick="addToCart('Pulsera Van Cleef Plata',3000)">Comprar</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- Cart -->
+<div class="cart" id="cart">
+  <span id="total">Total: $0 MXN</span>
+  <button onclick="sendWhatsApp()">Finalizar pedido</button>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img src="" alt="Imagen producto">
+</div>
+
+<!-- Footer -->
+<footer>
+  © 2026 Society Supply - Streetwear & Luxury
+</footer>
+
+<script>
+// Carrito
+let cart = [];
+
+function addToCart(name, price) {
+  cart.push({name, price});
+  updateTotal();
+  document.getElementById('cart').classList.add('show');
+}
+
+function updateTotal() {
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
+  document.getElementById('total').innerText = `Total: $${total} MXN`;
+}
+
+function sendWhatsApp() {
+  if(cart.length === 0){
+    alert("Agrega un producto al carrito");
+    return;
+  }
+  let message = "Hola Society Supply 👋\nQuiero ordenar:\n\n";
+  cart.forEach(item => { message += `• ${item.name} - $${item.price} MXN\n`; });
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
+  message += `\nTotal a pagar: $${total} MXN\n\n¿Me confirmas disponibilidad?`;
+  window.open("https://wa.me/526564639917?text=" + encodeURIComponent(message), '_blank');
+}
+
+// Animar tarjetas al hacer scroll
+const cards = document.querySelectorAll('.card');
+window.addEventListener('scroll', () => {
+  const trigger = window.innerHeight * 0.85;
+  cards.forEach(card => {
+    if(card.getBoundingClientRect().top < trigger) card.classList.add('visible');
+  });
+});
+
+// Filtrar categorías
+function filterCategory(category, btn){
+  const allCards = document.querySelectorAll('.card');
+  allCards.forEach(card => {
+    if(category==='all' || card.dataset.category===category){
+      card.style.display='block';
+    } else {
+      card.style.display='none';
+    }
+  });
+  // Botón activo
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// Lightbox
+function openLightbox(img){
+  const lightbox = document.getElementById('lightbox');
+  lightbox.style.display='flex';
+  lightbox.querySelector('img').src = img.src;
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').style.display='none';
+}
+</script>
+
+</body>
+</html>
