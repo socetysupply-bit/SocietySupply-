@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Supply</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family:'Inter',sans-serif;
+background:#ffffff;
+color:#111;
+line-height:1.6;
+}
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:#fff;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 60px;
+border-bottom:1px solid #eee;
+z-index:1000;
+}
+
+nav h1{
+letter-spacing:6px;
+font-weight:400;
+font-size:18px;
+cursor:pointer;
+}
+
+header{
+height:95vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+margin-top:90px;
+}
+
+header h2{
+font-size:70px;
+font-weight:300;
+letter-spacing:8px;
+}
+
+header button{
+margin-top:40px;
+padding:14px 40px;
+border:1px solid #111;
+background:transparent;
+cursor:pointer;
+transition:0.3s;
+}
+
+header button:hover{
+background:#111;
+color:#fff;
+}
+
+.section{
+padding:120px 80px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:100px;
+}
+
+.card img{
+width:100%;
+height:500px;
+object-fit:cover;
+transition:0.5s;
+}
+
+.card img.fade{
+opacity:0.3;
+}
+
+.card h3{
+margin:25px 0 8px;
+font-weight:400;
+font-size:18px;
+}
+
+.price{
+font-size:14px;
+margin-bottom:15px;
+}
+
+.colors{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+}
+
+.colors span{
+width:22px;
+height:22px;
+border-radius:50%;
+cursor:pointer;
+border:1px solid #ddd;
+transition:0.3s;
+}
+
+.colors span:hover{
+transform:scale(1.2);
+}
+
+select{
+width:100%;
+padding:10px;
+border:1px solid #ddd;
+margin-bottom:20px;
+font-size:14px;
+}
+
+button.buy{
+width:100%;
+padding:12px;
+border:1px solid #111;
+background:transparent;
+cursor:pointer;
+transition:0.3s;
+font-size:14px;
+}
+
+button.buy:hover{
+background:#111;
+color:#fff;
+}
+
+.cart-bar{
+position:fixed;
+bottom:0;
+width:100%;
+background:#fff;
+border-top:1px solid #eee;
+padding:20px 60px;
+display:flex;
+justify-content:space-between;
+font-size:14px;
+}
+
+footer{
+padding:60px;
+text-align:center;
+font-size:13px;
+color:#777;
+border-top:1px solid #eee;
+margin-top:120px;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<h1 onclick="window.scrollTo({top:0,behavior:'smooth'})">SOCIETY SUPPLY</h1>
+</nav>
+
+<header>
+<div>
+<h2>SOCIETY SUPPLY</h2>
+<button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+DISCOVER COLLECTION
+</button>
+</div>
+</header>
+
+<section id="shop" class="section">
+<div class="products">
+
+<!-- ESSENTIALS -->
+<div class="card">
+<img id="ess-img" src="d83fcbacdc34494b80e7bdf80b72c24d.png">
+
+<h3>Sudadera Essentials</h3>
+<div class="price">$2,000 MXN</div>
+
+<div class="colors">
+<span style="background:#000" onclick="changeEssentials('black')"></span>
+<span style="background:#888" onclick="changeEssentials('gray')"></span>
+<span style="background:#f2f2f2" onclick="changeEssentials('white')"></span>
+</div>
+
+<select id="ess-size">
+<option>Talla S</option>
+<option>Talla M</option>
+<option>Talla L</option>
+</select>
+
+<button class="buy" onclick="addEssentials()">ADD TO BAG</button>
+</div>
+
+<!-- VAN CLEEF -->
+<div class="card">
+<img src="Screenshot_20260218-014751.jpg">
+
+<h3>Pulsera Van Cleef</h3>
+<div class="price">$3,000 MXN</div>
+
+<select id="vc-material">
+<option>Oro</option>
+<option>Plata</option>
+</select>
+
+<button class="buy" onclick="addVC()">ADD TO BAG</button>
+</div>
+
+</div>
+</section>
+
+<div class="cart-bar">
+<div id="items">0 items</div>
+<div id="total">$0 MXN</div>
+</div>
+
+<footer>
+© 2026 Society Supply — Luxury Streetwear
+</footer>
+
+<script>
+let cart=[];
+let selectedColor="Negro";
+
+function changeEssentials(color){
+let img=document.getElementById("ess-img");
+img.classList.add("fade");
+
+setTimeout(()=>{
+if(color==="black"){
+img.src="d83fcbacdc34494b80e7bdf80b72c24d.png";
+selectedColor="Negro";
+}
+if(color==="gray"){
+img.src="TU_IMAGEN_GRIS.png";
+selectedColor="Gris";
+}
+if(color==="white"){
+img.src="TU_IMAGEN_BLANCA.png";
+selectedColor="Blanco";
+}
+img.classList.remove("fade");
+},300);
+}
+
+function addEssentials(){
+let size=document.getElementById("ess-size").value;
+cart.push({name:"Sudadera Essentials",price:2000,color:selectedColor,size});
+updateCart();
+}
+
+function addVC(){
+let material=document.getElementById("vc-material").value;
+cart.push({name:"Pulsera Van Cleef",price:3000,color:material});
+updateCart();
+}
+
+function updateCart(){
+let total=cart.reduce((sum,item)=>sum+item.price,0);
+document.getElementById("items").innerText=`${cart.length} items`;
+document.getElementById("total").innerText=`$${total} MXN`;
+}
+</script>
+
+</body>
+</html>
