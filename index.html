@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Supply</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+font-family: Helvetica, Arial, sans-serif;
+background:#ffffff;
+color:#111;
+}
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:#fff;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+border-bottom:1px solid #eee;
+z-index:1000;
+}
+
+nav h1{
+font-size:20px;
+letter-spacing:4px;
+font-weight:500;
+cursor:pointer;
+}
+
+nav ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+nav a{
+text-decoration:none;
+color:#111;
+font-size:14px;
+}
+
+header{
+height:90vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+margin-top:70px;
+}
+
+header h2{
+font-size:60px;
+font-weight:400;
+letter-spacing:6px;
+}
+
+header button{
+margin-top:30px;
+padding:12px 30px;
+border:1px solid #111;
+background:transparent;
+cursor:pointer;
+transition:0.3s;
+}
+
+header button:hover{
+background:#111;
+color:#fff;
+}
+
+.section{
+padding:100px 60px;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:60px;
+}
+
+.card img{
+width:100%;
+height:400px;
+object-fit:cover;
+}
+
+.card h3{
+margin:15px 0 5px;
+font-weight:500;
+}
+
+.price{
+font-size:14px;
+margin-bottom:10px;
+}
+
+select{
+padding:8px;
+border:1px solid #ddd;
+margin-bottom:10px;
+width:100%;
+}
+
+button.buy{
+padding:10px;
+border:1px solid #111;
+background:transparent;
+cursor:pointer;
+width:100%;
+transition:0.3s;
+}
+
+button.buy:hover{
+background:#111;
+color:#fff;
+}
+
+.cart{
+position:fixed;
+bottom:0;
+width:100%;
+background:#fff;
+border-top:1px solid #eee;
+padding:15px 30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+footer{
+padding:40px;
+text-align:center;
+font-size:13px;
+color:#777;
+border-top:1px solid #eee;
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<h1 onclick="window.scrollTo({top:0,behavior:'smooth'})">SOCIETY SUPPLY</h1>
+<ul>
+<li><a href="#productos">Shop</a></li>
+</ul>
+</nav>
+
+<header>
+<div>
+<h2>SOCIETY SUPPLY</h2>
+<button onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+SHOP NOW
+</button>
+</div>
+</header>
+
+<section id="productos" class="section">
+<div class="products">
+
+<div class="card">
+<img src="d83fcbacdc34494b80e7bdf80b72c24d.png">
+<h3>Sudadera Essentials</h3>
+<div class="price">$2,000 MXN</div>
+<select id="t1">
+<option>Talla S</option>
+<option>Talla M</option>
+<option>Talla L</option>
+</select>
+<button class="buy" onclick="addToCart('Sudadera Essentials',2000,'t1')">Añadir</button>
+</div>
+
+<div class="card">
+<img src="fec23db5366bf4f7745fb162da5822f3.png">
+<h3>Sudadera ALO</h3>
+<div class="price">$2,300 MXN</div>
+<select id="t2">
+<option>Talla S</option>
+<option>Talla M</option>
+<option>Talla L</option>
+</select>
+<button class="buy" onclick="addToCart('Sudadera ALO',2300,'t2')">Añadir</button>
+</div>
+
+<div class="card">
+<img src="file_000000001c2471fdb8162bdbe6f2f778 (1).jpg">
+<h3>Camisa Nude Project</h3>
+<div class="price">$500 MXN</div>
+<select id="t3">
+<option>Talla S</option>
+<option>Talla M</option>
+<option>Talla L</option>
+</select>
+<button class="buy" onclick="addToCart('Camisa Nude Project',500,'t3')">Añadir</button>
+</div>
+
+</div>
+</section>
+
+<div class="cart">
+<div id="count">0 productos</div>
+<div id="total">$0 MXN</div>
+</div>
+
+<footer>
+© 2026 Society Supply
+</footer>
+
+<script>
+let cart=[];
+
+function addToCart(name,price,sizeId){
+let size=document.getElementById(sizeId).value;
+cart.push({name,price,size});
+updateCart();
+}
+
+function updateCart(){
+let total=cart.reduce((sum,item)=>sum+item.price,0);
+document.getElementById('count').innerText=`${cart.length} productos`;
+document.getElementById('total').innerText=`$${total} MXN`;
+}
+</script>
+
+</body>
+</html>
