@@ -381,9 +381,26 @@ document.getElementById("count").innerText=cart.length;
 document.getElementById("total").innerText="Total: $"+total+" MXN";
 }
 
+<script>
 function checkout(){
-window.open("https://wa.me/526564639917");
+let message = "Hola 👋%0A%0A";
+message += "Deseo formalizar mi compra con *SocietySupply*.%0A%0A";
+message += "Estos son los artículos seleccionados:%0A%0A";
+
+let total = 0;
+
+cart.forEach((item)=>{
+total += item.price;
+message += "🛍 " + item.name + " - " + item.option + " - $" + item.price + " MXN%0A";
+});
+
+message += "%0A💳 Total: $" + total + " MXN%0A%0A";
+message += "Agradecería la confirmación de disponibilidad y las instrucciones para proceder con el pago.%0A%0A";
+message += "Quedo pendiente.";
+
+window.open("https://wa.me/526564639917?text=" + message, "_blank");
 }
+</script>
 
 updateCart();
 
@@ -402,6 +419,7 @@ cards.forEach(card=>observer.observe(card));
 </body>
 
 </html>
+
 
 
 
