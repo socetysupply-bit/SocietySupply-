@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Supply</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#fafafa;color:#111;overflow-x:hidden}
+
+/* NAV */
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:#fff;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+border-bottom:1px solid #eee;
+z-index:1000;
+}
+
+.logo{font-weight:600;letter-spacing:4px;cursor:pointer}
+.menu{display:flex;gap:30px;font-size:14px}
+.menu span{cursor:pointer;color:#666;transition:.3s}
+.menu span:hover{color:#000}
+.cart-btn{cursor:pointer;font-weight:600}
+
+/* HERO */
+.hero{
+height:100vh;
+background:url('https://images.unsplash.com/photo-1520975928316-56a3e7c9d1f4?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:#fff;
+padding:20px;
+}
+
+.hero h1{font-size:65px;font-weight:300;letter-spacing:6px}
+.hero p{margin-top:20px;letter-spacing:2px}
+.hero button{
+margin-top:40px;
+padding:14px 45px;
+border:1px solid #fff;
+background:transparent;
+color:#fff;
+cursor:pointer;
+transition:.3s;
+}
+.hero button:hover{background:#fff;color:#000}
+
+/* SECTION */
+.section{padding:120px 60px}
+.section-title{text-align:center;margin-bottom:80px;font-size:26px;letter-spacing:3px}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:60px;
+}
+
+.card{
+background:#fff;
+padding:15px;
+transition:.3s;
+}
+
+.card img{width:100%;height:380px;object-fit:cover}
+.badge{
+position:absolute;
+background:#000;
+color:#fff;
+padding:5px 10px;
+font-size:11px;
+letter-spacing:1px;
+}
+
+.card h3{margin:20px 0 5px}
+.price{color:#777;margin-bottom:15px}
+
+select{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+border:1px solid #ddd;
+}
+
+.buy{
+width:100%;
+padding:12px;
+border:1px solid #000;
+background:transparent;
+cursor:pointer;
+transition:.3s;
+}
+.buy:hover{background:#000;color:#fff}
+
+/* TRUST */
+.trust{
+background:#111;
+color:#fff;
+padding:80px 60px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:40px;
+text-align:center;
+}
+
+/* CART */
+.cart{
+position:fixed;
+right:-400px;
+top:0;
+width:400px;
+height:100%;
+background:#fff;
+box-shadow:-5px 0 15px rgba(0,0,0,0.1);
+padding:40px 25px;
+transition:.4s;
+z-index:2000;
+overflow-y:auto;
+}
+.cart.active{right:0}
+.cart-item{margin-bottom:20px;border-bottom:1px solid #eee;padding-bottom:10px}
+.total{margin-top:20px;font-weight:700}
+.checkout{
+margin-top:20px;
+width:100%;
+padding:12px;
+background:#000;
+color:#fff;
+border:none;
+cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+padding:60px;
+text-align:center;
+background:#fff;
+border-top:1px solid #eee;
+color:#777;
+font-size:14px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+nav{padding:20px}
+.hero h1{font-size:40px}
+.section{padding:80px 25px}
+.cart{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo">SOCIETY SUPPLY</div>
+<div class="menu">
+<span onclick="scrollToSection('shop')">SHOP</span>
+<span onclick="scrollToSection('about')">ABOUT</span>
+</div>
+<div class="cart-btn" onclick="toggleCart()">🛍 <span id="count">0</span></div>
+</nav>
+
+<div class="hero">
+<div>
+<h1>LUXURY STREET ESSENTIALS</h1>
+<p>Minimal. Premium. Authentic.</p>
+<button onclick="scrollToSection('shop')">SHOP NOW</button>
+</div>
+</div>
+
+<section id="shop" class="section">
+<div class="section-title">FEATURED COLLECTION</div>
+<div class="products">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80">
+<h3>Sudadera Essentials</h3>
+<div class="price">$2,000 MXN</div>
+<select id="p1"><option>S</option><option>M</option><option>L</option></select>
+<button class="buy" onclick="addToCart('Sudadera Essentials',2000,'p1')">ADD TO BAG</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=800&q=80">
+<h3>Camisa Nude Project</h3>
+<div class="price">$500 MXN</div>
+<select id="p2"><option>S</option><option>M</option><option>L</option></select>
+<button class="buy" onclick="addToCart('Camisa Nude Project',500,'p2')">ADD TO BAG</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1600180758890-6b94519a8ba5?auto=format&fit=crop&w=800&q=80">
+<h3>Tenis Urban White</h3>
+<div class="price">$2,800 MXN</div>
+<select id="p3"><option>26</option><option>27</option><option>28</option></select>
+<button class="buy" onclick="addToCart('Tenis Urban White',2800,'p3')">ADD TO BAG</button>
+</div>
+
+</div>
+</section>
+
+<section class="trust">
+<div>🚚 Envíos a todo México</div>
+<div>✔ Productos 100% originales</div>
+<div>🔒 Compra segura</div>
+<div>💬 Atención personalizada</div>
+</section>
+
+<section id="about" class="section">
+<div class="section-title">ABOUT SOCIETY SUPPLY</div>
+<p style="max-width:700px;margin:auto;text-align:center;color:#555;line-height:1.6">
+Society Supply es una marca enfocada en piezas esenciales de lujo urbano.
+Seleccionamos productos premium con estética minimalista y calidad superior.
+</p>
+</section>
+
+<div class="cart" id="cart">
+<h3>Tu carrito</h3>
+<div id="cartItems"></div>
+<div class="total" id="total"></div>
+<button class="checkout" onclick="checkout()">Finalizar por WhatsApp</button>
+</div>
+
+<footer>
+© 2026 Society Supply — Luxury Streetwear
+</footer>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("active");
+}
+
+function addToCart(name,price,id){
+let option=document.getElementById(id).value;
+cart.push({name,price,option});
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+toggleCart();
+}
+
+function updateCart(){
+let items=document.getElementById("cartItems");
+items.innerHTML="";
+let total=0;
+
+cart.forEach(item=>{
+total+=item.price;
+items.innerHTML+=`
+<div class="cart-item">
+${item.name}<br>
+${item.option}<br>
+$${item.price} MXN
+</div>
+`;
+});
+
+document.getElementById("count").innerText=cart.length;
+document.getElementById("total").innerText="Total: $"+total+" MXN";
+}
+
+function checkout(){
+let message="Hola quiero comprar:%0A";
+let total=0;
+
+cart.forEach(item=>{
+message+=`- ${item.name} (${item.option}) $${item.price} MXN%0A`;
+total+=item.price;
+});
+
+message+=`Total: $${total} MXN`;
+
+window.open(`https://wa.me/526564639917?text=${message}`);
+}
+
+updateCart();
+</script>
+
+</body>
+</html>
