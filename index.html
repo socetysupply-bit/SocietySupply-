@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Society Supply</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#f5f5f3;
+--white:#ffffff;
+--black:#111111;
+--gray:#777777;
+--accent:#c6b8a3;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--black);
+overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:var(--white);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 60px;
+border-bottom:1px solid #eee;
+z-index:1000;
+}
+
+.logo{
+font-weight:600;
+letter-spacing:5px;
+cursor:pointer;
+}
+
+.menu{
+display:flex;
+gap:30px;
+font-size:13px;
+letter-spacing:1px;
+}
+
+.menu span{
+cursor:pointer;
+color:var(--gray);
+transition:.3s;
+}
+
+.menu span:hover{
+color:var(--black);
+}
+
+.cart-btn{
+cursor:pointer;
+font-weight:600;
+}
+
+/* HERO */
+.hero{
+height:100vh;
+background:linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)),
+url('https://images.unsplash.com/photo-1520975928316-56a3e7c9d1f4?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:#fff;
+padding:20px;
+}
+
+.hero h1{
+font-size:65px;
+font-weight:300;
+letter-spacing:6px;
+}
+
+.hero p{
+margin-top:20px;
+letter-spacing:2px;
+color:#e0e0e0;
+}
+
+.hero button{
+margin-top:40px;
+padding:14px 50px;
+border:1px solid #fff;
+background:transparent;
+color:#fff;
+cursor:pointer;
+transition:.3s;
+}
+
+.hero button:hover{
+background:#fff;
+color:#000;
+}
+
+/* SECTION */
+.section{
+padding:120px 60px;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:80px;
+font-size:24px;
+letter-spacing:4px;
+font-weight:500;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:60px;
+}
+
+.card{
+background:var(--white);
+padding:15px;
+transition:.3s;
+position:relative;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 30px rgba(0,0,0,.05);
+}
+
+.card img{
+width:100%;
+height:380px;
+object-fit:cover;
+}
+
+.badge{
+position:absolute;
+top:15px;
+left:15px;
+background:var(--black);
+color:#fff;
+padding:5px 10px;
+font-size:11px;
+letter-spacing:1px;
+}
+
+.card h3{
+margin:20px 0 5px;
+font-weight:500;
+}
+
+.price{
+color:var(--gray);
+margin-bottom:15px;
+}
+
+select{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+border:1px solid #ddd;
+background:#fff;
+}
+
+.buy{
+width:100%;
+padding:12px;
+border:1px solid var(--black);
+background:transparent;
+cursor:pointer;
+transition:.3s;
+letter-spacing:1px;
+}
+
+.buy:hover{
+background:var(--black);
+color:#fff;
+}
+
+/* TRUST */
+.trust{
+background:var(--black);
+color:#fff;
+padding:80px 60px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:40px;
+text-align:center;
+}
+
+/* CART */
+.cart{
+position:fixed;
+right:-420px;
+top:0;
+width:420px;
+height:100%;
+background:#fff;
+box-shadow:-5px 0 25px rgba(0,0,0,.15);
+padding:40px 25px;
+transition:.4s;
+z-index:2000;
+overflow-y:auto;
+}
+
+.cart.active{
+right:0;
+}
+
+.cart-item{
+margin-bottom:20px;
+border-bottom:1px solid #eee;
+padding-bottom:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.remove{
+cursor:pointer;
+color:red;
+font-size:12px;
+}
+
+.total{
+margin-top:20px;
+font-weight:700;
+}
+
+.checkout{
+margin-top:20px;
+width:100%;
+padding:14px;
+background:var(--black);
+color:#fff;
+border:none;
+cursor:pointer;
+letter-spacing:1px;
+}
+
+/* FOOTER */
+footer{
+padding:60px;
+text-align:center;
+background:#fff;
+border-top:1px solid #eee;
+color:#777;
+font-size:14px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+nav{padding:20px}
+.hero h1{font-size:40px}
+.section{padding:80px 25px}
+.cart{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo" onclick="scrollToSection('top')">SOCIETY SUPPLY</div>
+<div class="menu">
+<span onclick="scrollToSection('shop')">SHOP</span>
+<span onclick="scrollToSection('about')">ABOUT</span>
+</div>
+<div class="cart-btn" onclick="toggleCart()">🛍 <span id="count">0</span></div>
+</nav>
+
+<div id="top" class="hero">
+<div>
+<h1>MINIMAL LUXURY STREETWEAR</h1>
+<p>Curated essentials for elevated everyday wear.</p>
+<button onclick="scrollToSection('shop')">EXPLORE COLLECTION</button>
+</div>
+</div>
+
+<section id="shop" class="section">
+<div class="section-title">FEATURED PRODUCTS</div>
+
+<div class="products">
+
+<div class="card">
+<div class="badge">BEST SELLER</div>
+<img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=80">
+<h3>Sudadera Essentials</h3>
+<div class="price">$2,000 MXN</div>
+<select id="p1"><option>S</option><option>M</option><option>L</option></select>
+<button class="buy" onclick="addToCart('Sudadera Essentials',2000,'p1')">ADD TO BAG</button>
+</div>
+
+<div class="card">
+<div class="badge">NEW</div>
+<img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=800&q=80">
+<h3>Camisa Nude Project</h3>
+<div class="price">$500 MXN</div>
+<select id="p2"><option>S</option><option>M</option><option>L</option></select>
+<button class="buy" onclick="addToCart('Camisa Nude Project',500,'p2')">ADD TO BAG</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1600180758890-6b94519a8ba5?auto=format&fit=crop&w=800&q=80">
+<h3>Tenis Urban White</h3>
+<div class="price">$2,800 MXN</div>
+<select id="p3"><option>26</option><option>27</option><option>28</option></select>
+<button class="buy" onclick="addToCart('Tenis Urban White',2800,'p3')">ADD TO BAG</button>
+</div>
+
+</div>
+</section>
+
+<section class="trust">
+<div>🚚 Envíos a todo México</div>
+<div>✔ Productos verificados</div>
+<div>🔒 Pago seguro</div>
+<div>💬 Atención personalizada</div>
+</section>
+
+<section id="about" class="section">
+<div class="section-title">ABOUT US</div>
+<p style="max-width:700px;margin:auto;text-align:center;color:#555;line-height:1.7">
+Society Supply redefine el streetwear minimalista con piezas seleccionadas
+para quienes buscan presencia, calidad y exclusividad.
+</p>
+</section>
+
+<div class="cart" id="cart">
+<h3>Tu carrito</h3>
+<div id="cartItems"></div>
+<div class="total" id="total"></div>
+<button class="checkout" onclick="checkout()">FINALIZAR POR WHATSAPP</button>
+</div>
+
+<footer>
+© 2026 Society Supply — All Rights Reserved
+</footer>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function scrollToSection(id){
+document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("active");
+}
+
+function addToCart(name,price,id){
+let option=document.getElementById(id).value;
+cart.push({name,price,option});
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+toggleCart();
+}
+
+function removeItem(index){
+cart.splice(index,1);
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+}
+
+function updateCart(){
+let items=document.getElementById("cartItems");
+items.innerHTML="";
+let total=0;
+
+cart.forEach((item,index)=>{
+total+=item.price;
+items.innerHTML+=`
+<div class="cart-item">
+<div>
+${item.name}<br>
+${item.option}<br>
+$${item.price} MXN
+</div>
+<div class="remove" onclick="removeItem(${index})">Eliminar</div>
+</div>
+`;
+});
+
+document.getElementById("count").innerText=cart.length;
+document.getElementById("total").innerText="Total: $"+total+" MXN";
+}
+
+function checkout(){
+let message="Hola quiero comprar:%0A";
+let total=0;
+
+cart.forEach(item=>{
+message+=`- ${item.name} (${item.option}) $${item.price} MXN%0A`;
+total+=item.price;
+});
+
+message+=`Total: $${total} MXN`;
+
+window.open(`https://wa.me/526564639917?text=${message}`);
+}
+
+updateCart();
+</script>
+
+</body>
+</html>
