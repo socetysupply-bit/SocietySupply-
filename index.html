@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SocietySupply</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--black:#000;
+--white:#fff;
+--gray:#9a9a9a;
+--soft:#0c0c0c;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+font-family:'Inter',sans-serif;
+background:#000;
+color:#fff;
+overflow-x:hidden;
+letter-spacing:1px;
+}
+
+/* NAV */
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:rgba(0,0,0,.85);
+backdrop-filter:blur(10px);
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:30px 90px;
+z-index:1000;
+border-bottom:1px solid #111;
+}
+
+.logo{
+font-size:13px;
+letter-spacing:8px;
+font-weight:500;
+}
+
+.cart-btn{
+cursor:pointer;
+font-size:13px;
+}
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.hero h1{
+font-size:60px;
+font-weight:200;
+letter-spacing:12px;
+}
+
+.section{
+padding:180px 100px;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:120px;
+font-size:12px;
+letter-spacing:10px;
+color:#777;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:100px;
+}
+
+.card img{
+width:100%;
+height:420px;
+object-fit:cover;
+transition:1s ease;
+}
+
+.card:hover img{
+transform:scale(1.05);
+}
+
+.card h3{
+margin:25px 0 10px;
+font-weight:400;
+font-size:14px;
+letter-spacing:3px;
+}
+
+.price{
+color:#777;
+font-size:12px;
+margin-bottom:25px;
+}
+
+.buy{
+width:100%;
+padding:16px;
+border:1px solid #fff;
+background:transparent;
+color:#fff;
+cursor:pointer;
+transition:.4s;
+letter-spacing:4px;
+font-size:10px;
+}
+
+.buy:hover{
+background:#fff;
+color:#000;
+}
+
+.cart{
+position:fixed;
+right:-450px;
+top:0;
+width:450px;
+height:100%;
+background:#000;
+border-left:1px solid #111;
+padding:60px 35px;
+transition:.6s ease;
+overflow-y:auto;
+}
+
+.cart.active{
+right:0;
+}
+
+.cart-item{
+margin-bottom:25px;
+border-bottom:1px solid #111;
+padding-bottom:15px;
+font-size:12px;
+}
+
+.checkout{
+margin-top:30px;
+width:100%;
+padding:18px;
+background:#fff;
+color:#000;
+border:none;
+cursor:pointer;
+letter-spacing:5px;
+font-size:10px;
+}
+
+footer{
+padding:100px;
+text-align:center;
+color:#333;
+font-size:11px;
+border-top:1px solid #111;
+letter-spacing:4px;
+}
+
+@media(max-width:900px){
+nav{padding:25px 30px}
+.section{padding:120px 30px}
+.products{gap:60px}
+.cart{width:100%}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo">SOCIETYSUPPLY</div>
+<div class="cart-btn" onclick="toggleCart()">🛍 (<span id="count">0</span>)</div>
+</nav>
+
+<div class="hero">
+<h1>NEW COLLECTION</h1>
+</div>
+
+<!-- SUDADERAS -->
+<div class="section">
+<div class="section-title">SUDADERAS</div>
+<div class="products">
+
+<div class="card">
+<img src="sudadera.jpg">
+<h3>Sudadera Essentials</h3>
+<div class="price">$2,000 MXN</div>
+<button class="buy" onclick="addToCart('Sudadera Essentials',2000)">COMPRAR</button>
+</div>
+
+<div class="card">
+<img src="chamarra.jpg">
+<h3>Chamarra</h3>
+<div class="price">$2,300 MXN</div>
+<button class="buy" onclick="addToCart('Chamarra',2300)">COMPRAR</button>
+</div>
+
+</div>
+</div>
+
+<!-- CAMISAS -->
+<div class="section">
+<div class="section-title">CAMISAS</div>
+<div class="products">
+
+<div class="card">
+<img src="camisa.jpg">
+<h3>Camisa Nude Project</h3>
+<div class="price">$500 MXN</div>
+<button class="buy" onclick="addToCart('Camisa Nude Project',500)">COMPRAR</button>
+</div>
+
+</div>
+</div>
+
+<!-- ACCESORIOS -->
+<div class="section">
+<div class="section-title">ACCESORIOS</div>
+<div class="products">
+
+<div class="card">
+<img src="vanclef.jpg">
+<h3>Van Cleef Full Set</h3>
+<div class="price">$3,000 MXN</div>
+<button class="buy" onclick="addToCart('Van Cleef Full Set',3000)">COMPRAR</button>
+</div>
+
+</div>
+</div>
+
+<!-- CART -->
+<div class="cart" id="cart">
+<h3>MI CARRITO</h3>
+<div id="cart-items"></div>
+<div id="total"></div>
+<button class="checkout" onclick="checkout()">FINALIZAR COMPRA</button>
+</div>
+
+<footer>
+© 2026 SocietySupply — All Rights Reserved
+</footer>
+
+<script>
+let cart = [];
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("active");
+}
+
+function addToCart(name,price){
+cart.push({name,price});
+updateCart();
+}
+
+function updateCart(){
+let items = document.getElementById("cart-items");
+let total = document.getElementById("total");
+let count = document.getElementById("count");
+
+items.innerHTML="";
+let sum=0;
+
+cart.forEach((item,index)=>{
+sum+=item.price;
+items.innerHTML+=`
+<div class="cart-item">
+${item.name} - $${item.price}
+</div>`;
+});
+
+total.innerHTML="TOTAL: $"+sum+" MXN";
+count.innerText=cart.length;
+}
+
+function checkout(){
+if(cart.length===0){
+alert("Tu carrito está vacío");
+return;
+}
+
+let message="Hola 👋%0AQuiero comprar:%0A";
+let total=0;
+
+cart.forEach(item=>{
+total+=item.price;
+message+=item.name+" - $"+item.price+" MXN%0A";
+});
+
+message+="Total: $"+total+" MXN";
+
+window.open("https://wa.me/526564639917?text="+message,"_blank");
+}
+</script>
+
+</body>
+</html>
