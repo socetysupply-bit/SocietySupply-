@@ -1,0 +1,183 @@
+<!-- SUDADERAS -->
+<section class="section">
+<div class="section-title">SUDADERAS</div>
+<div class="products">
+
+<div class="card">
+<img src="d83fcbacdc34494b80e7bdf80b72c24d.png">
+<h3>Sudadera Essentials</h3>
+<div class="price">$2,000 MXN</div>
+
+<select id="s1">
+<option value="S - Negro">S - Negro</option>
+<option value="M - Negro">M - Negro</option>
+<option value="L - Negro">L - Negro</option>
+<option value="S - Gris">S - Gris</option>
+<option value="M - Gris">M - Gris</option>
+<option value="L - Gris">L - Gris</option>
+<option value="S - Blanco">S - Blanco</option>
+<option value="M - Blanco">M - Blanco</option>
+<option value="L - Blanco">L - Blanco</option>
+</select>
+
+<button class="buy" onclick="addToCart('Sudadera Essentials',2000,'s1')">ADD TO BAG</button>
+</div>
+
+<div class="card">
+<img src="fec23db5366bf4f7745fb162da5822f3.png">
+<h3>Sudadera ALO</h3>
+<div class="price">$2,300 MXN</div>
+
+<select id="s2">
+<option>S</option>
+<option>M</option>
+<option>L</option>
+</select>
+
+<button class="buy" onclick="addToCart('Sudadera ALO',2300,'s2')">ADD TO BAG</button>
+</div>
+
+</div>
+</section>
+
+
+<!-- CAMISAS -->
+<section class="section">
+<div class="section-title">CAMISAS</div>
+<div class="products">
+
+<div class="card">
+<img src="file_000000001c2471fdb8162bdbe6f2f778 (1).jpg">
+<h3>Camisa Nude Project</h3>
+<div class="price">$500 MXN</div>
+
+<select id="c1">
+<option>S</option>
+<option>M</option>
+<option>L</option>
+</select>
+
+<button class="buy" onclick="addToCart('Camisa Nude Project',500,'c1')">ADD TO BAG</button>
+</div>
+
+</div>
+</section>
+
+
+<!-- ACCESORIOS -->
+<section class="section">
+<div class="section-title">ACCESORIOS</div>
+<div class="products">
+
+<div class="card">
+<img src="Screenshot_20260218-014751.jpg">
+<h3>Pulsera Vaan Clef Full Set</h3>
+<div class="price">$3,000 MXN</div>
+
+<button class="buy" onclick="addToCart('Pulsera Vaan Clef Full Set',3000)">
+ADD TO BAG
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- CARRITO -->
+<div class="cart" id="cart">
+<h3>Tu carrito</h3>
+<div id="cartItems"></div>
+<div class="total" id="total"></div>
+<button class="checkout" onclick="checkout()">FINALIZAR</button>
+</div>
+
+<footer>
+© 2026 SocietySupply - Marquez
+</footer>
+
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function toggleCart(){
+  document.getElementById("cart").classList.toggle("active");
+}
+
+function addToCart(name, price, id){
+  let option = "";
+  if(id){
+    let select = document.getElementById(id);
+    if(select){
+      option = select.value;
+    }
+  }
+
+  cart.push({name, price, option});
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
+  toggleCart();
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCart();
+}
+
+function updateCart(){
+  let items = document.getElementById("cartItems");
+  items.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item,index)=>{
+    total += item.price;
+
+    items.innerHTML += `
+    <div class="cart-item">
+      <div>
+        ${item.name}<br>
+        ${item.option ? item.option + "<br>" : ""}
+        $${item.price} MXN
+      </div>
+      <div class="remove" onclick="removeItem(${index})">
+        Eliminar
+      </div>
+    </div>
+    `;
+  });
+
+  document.getElementById("count").innerText = cart.length;
+  document.getElementById("total").innerText = "Total: $" + total + " MXN";
+}
+
+function checkout(){
+
+  if(cart.length === 0){
+    alert("Tu carrito está vacío");
+    return;
+  }
+
+  let message = "Hola 👋%0A%0A";
+  message += "Deseo formalizar mi compra con *SocietySupply*.%0A%0A";
+  message += "Artículos:%0A%0A";
+
+  let total = 0;
+
+  cart.forEach((item)=>{
+    total += item.price;
+    message += "🛍 " + item.name + " - ";
+    if(item.option){
+      message += item.option + " - ";
+    }
+    message += "$" + item.price + " MXN%0A";
+  });
+
+  message += "%0A💳 Total: $" + total + " MXN%0A%0A";
+  message += "Quedo pendiente para realizar el pago.";
+
+  window.open("https://wa.me/526564639917?text=" + message, "_blank");
+}
+
+updateCart();
+</script>
