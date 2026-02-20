@@ -381,71 +381,8 @@ document.getElementById("count").innerText=cart.length;
 document.getElementById("total").innerText="Total: $"+total+" MXN";
 }
 
-<script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function toggleCart(){
-document.getElementById("cart").classList.toggle("active");
-}
 
-function addToCart(name,price,id){
-let option = document.getElementById(id)?.value || "";
-cart.push({name,price,option});
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-toggleCart();
-}
-
-function removeItem(index){
-cart.splice(index,1);
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-}
-
-function updateCart(){
-let items=document.getElementById("cartItems");
-items.innerHTML="";
-let total=0;
-
-cart.forEach((item,index)=>{
-total+=item.price;
-items.innerHTML+=`
-<div class="cart-item">
-<div>
-${item.name}<br>
-${item.option || ""}<br>
-$${item.price} MXN
-</div>
-<div class="remove" onclick="removeItem(${index})">Eliminar</div>
-</div>
-`;
-});
-
-document.getElementById("count").innerText=cart.length;
-document.getElementById("total").innerText="Total: $"+total+" MXN";
-}
-
-function checkout(){
-let message = "Hola 👋%0A%0A";
-message += "Deseo formalizar mi compra con *SocietySupply*.%0A%0A";
-message += "Estos son los artículos seleccionados:%0A%0A";
-
-let total = 0;
-
-cart.forEach((item)=>{
-total += item.price;
-message += "🛍 " + item.name + " - " + (item.option || "") + " - $" + item.price + " MXN%0A";
-});
-
-message += "%0A💳 Total: $" + total + " MXN%0A%0A";
-message += "Agradecería la confirmación de disponibilidad y las instrucciones para proceder con el pago.%0A%0A";
-message += "Quedo pendiente.";
-
-window.open("https://wa.me/526564639917?text=" + message, "_blank");
-}
-
-updateCart();
-</script>
 
 
 
